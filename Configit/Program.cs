@@ -9,14 +9,11 @@ namespace Resolve_dependencies
         static void Main(string[] args)
         {
             string inputPath = @"/Users/husker/RiderProjects/Configit/input/";
-            string outputPath = @"/Users/husker/RiderProjects/Configit/output/";
             bool pass = true;
 
             try
             {
                 var inputFiles = Directory.EnumerateFiles(inputPath, "input*.txt");
-                
-
                 foreach (string currentFile in inputFiles)
                 {
                     string outputFile = currentFile.Replace("input/input", "output/output");
@@ -70,8 +67,7 @@ namespace Resolve_dependencies
                             }
                         }
                     }
-
-                    Console.WriteLine(pass ? "PASS" : "FAIL");
+                    File.WriteAllText(outputFile, pass ? "PASS" : "FAIL");
                 }
             }
             catch (Exception e)
