@@ -16,43 +16,57 @@ namespace Resolve_dependencies
             for (int i = 0; i < 10; i++)
             {
                 filename = filepath + "input00" + i + ".txt";
+                // filename = filepath + "input009.txt";
                 Console.WriteLine(filename);
                 
                 var lines = File.ReadAllLines(filename);
                 int numPackages = int.Parse(lines[0]);
-                int numDependencies;
-                if (lines.Length > 1 + numPackages)
-                {
-                    numDependencies = int.Parse(lines[1 + numPackages]);
-                }
-                else numDependencies = 0;
-                
-                Console.WriteLine($"Number of packages: {numPackages}");
-                Console.WriteLine($"Number of dependencies: {numDependencies}");
 
-                Dictionary<string, int> packageToVersionDictionary = new Dictionary<string, int>();
+                Console.WriteLine($"Number of packages: {numPackages}");
+
+                Dictionary<string, string> packageToVersionDictionary = new Dictionary<string, string>();
                 for (int j = 1; j <= numPackages; j++)
                 {
                     var subs = lines[j].Split(',');
-                    pass = packageToVersionDictionary.TryAdd(subs[0],int.Parse(subs[1]));
-                    
-                    foreach (var kvp in packageToVersionDictionary)
-                    {
-                        Console.WriteLine($"Package: {kvp.Key}");
-                        Console.WriteLine($"Version: {kvp.Value}");
-                    }
-                    // foreach (var s in subs)
-                    // {
-                    //     Console.WriteLine(s);
-                    // }
+
+                    pass = packageToVersionDictionary.TryAdd(subs[0],subs[1]);
+                    if (!pass) break;
+
                 }
-
-                Console.WriteLine(pass ? "PASS" : "FAIL");
-
-                foreach (var line in lines)
+                
+                foreach (var kvp in packageToVersionDictionary)
                 {
-                   // Console.WriteLine(line);
+                    Console.WriteLine($"Package: {kvp.Key}");
+                    Console.WriteLine($"Version: {kvp.Value}");
                 }
+
+                if (pass)
+                {
+                    bool hasDependencies = lines.Length > 1 + numPackages;
+                    if (hasDependencies)
+                    {
+                        for (int j = 2+numPackages; j < lines.Length; j++)
+                        {
+                            if (!pass) break;
+                            var subs = lines[j].Split(',');
+                            int numDependencies = subs.Length / 2 - 1;
+                            
+                            if (packageToVersionDictionary.ContainsKey(subs[0]))
+                            {
+                                if (packageToVersionDictionary[subs[0]] == subs[1])
+                                {
+                                    for (int k = 0; k < 2 * numDependencies; k+=2)
+                                    {
+                                        if (packageToVersionDictionary.ContainsKey(subs[k + 2]) &&
+                                            packageToVersionDictionary[subs[k + 2]] == subs[k + 3]) continue;
+                                            pass = packageToVersionDictionary.TryAdd(subs[k+2], subs[k+3]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine(pass ? "PASS" : "FAIL");
             }
             
         }
