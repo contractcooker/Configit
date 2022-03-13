@@ -10,29 +10,16 @@ namespace Resolve_dependencies
         {
             bool pass = true;
 
-            try
-            {
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
             string inputPath = @"/Users/husker/RiderProjects/Configit/input/";
             string outputPath = @"/Users/husker/RiderProjects/Configit/output/";
-
             var inputFiles = Directory.EnumerateFiles(inputPath, "input*.txt");
             foreach (string currentFile in inputFiles)
             {
                 string outputFile = currentFile.Replace("input/input", "output/output");
 
-                Console.WriteLine(outputFile);
-                Console.WriteLine(currentFile);
                 var lines = File.ReadAllLines(currentFile);
                 int numPackages = int.Parse(lines[0]);
-
-                Console.WriteLine($"Number of packages: {numPackages}");
-
+                
                 Dictionary<string, string> packageToVersionDictionary = new Dictionary<string, string>();
                 for (int j = 1; j <= numPackages; j++)
                 {
@@ -40,12 +27,6 @@ namespace Resolve_dependencies
 
                     pass = packageToVersionDictionary.TryAdd(subs[0], subs[1]);
                     if (!pass) break;
-                }
-
-                foreach (var kvp in packageToVersionDictionary)
-                {
-                    Console.WriteLine($"Package: {kvp.Key}");
-                    Console.WriteLine($"Version: {kvp.Value}");
                 }
 
                 if (pass)
