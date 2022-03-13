@@ -21,6 +21,7 @@ namespace Resolve_dependencies
                 int numPackages = int.Parse(lines[0]);
                 
                 Dictionary<string, string> packageToVersionDictionary = new Dictionary<string, string>();
+                //start at index 1 because that's where the packages start [0] just gives us the number of packages
                 for (int j = 1; j <= numPackages; j++)
                 {
                     var subs = lines[j].Split(',');
@@ -34,6 +35,7 @@ namespace Resolve_dependencies
                     bool hasDependencies = lines.Length > 1 + numPackages;
                     if (hasDependencies)
                     {
+                        //adding 2 to account for number of packages and number of dependencies.
                         for (int j = 2 + numPackages; j < lines.Length; j++)
                         {
                             if (!pass) break;
@@ -44,8 +46,10 @@ namespace Resolve_dependencies
                             {
                                 if (packageToVersionDictionary[subs[0]] == subs[1])
                                 {
+                                    //since each dependency has 2 fields (name,version) multiply by two and iterate by 2
                                     for (int k = 0; k < 2 * numDependencies; k += 2)
                                     {
+                                        //skip over first 2 places as they denote the dependent package and version, dependencies start at [2] and occur every 2 indices.
                                         if (packageToVersionDictionary.ContainsKey(subs[k + 2]) &&
                                             packageToVersionDictionary[subs[k + 2]] == subs[k + 3])
                                             continue;
