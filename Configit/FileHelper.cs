@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Ardalis.GuardClauses;
 
 namespace Configit
 {
@@ -14,6 +15,7 @@ namespace Configit
 
         public FileHelper(string currentFile)
         {
+            Guard.Against.NullOrEmpty(currentFile, nameof(currentFile));
             Lines = File.ReadAllLines(currentFile);
             NumPackages = GetNumPackages(Lines[0]);
             DependencyIndex = 2 + NumPackages;
