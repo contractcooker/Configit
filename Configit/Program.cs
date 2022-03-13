@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Linq;
 
 namespace Resolve_dependencies
 {
@@ -11,16 +12,24 @@ namespace Resolve_dependencies
         {
             bool pass = true;
             IoHelper ioh = new IoHelper();
-            Dictionary<string, string> packageToVersionDictionary = new Dictionary<string, string>();
+            Dictionary<string, string> packageToVersionDictionary;
 
             var inputFiles = ioh.GetInputFiles();
             foreach (string currentFile in inputFiles)
             {
                 FileHelper fh = new FileHelper(currentFile);
-                List<KeyValuePair<string, string>> packageList = fh.PackageList;
-                Console.WriteLine(packageList);
+                var packageList = fh.PackageList;
+                try
+                {
+                    packageToVersionDictionary = packageList.ToDictionary(p => p.package, p => p.version);
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e);
+                    ioh.CreateOutputFile(currentFile, "FAIL");
+                }
 
-                
+
 
                 // if (pass)
                 // {
@@ -52,7 +61,6 @@ namespace Resolve_dependencies
                 //         }
                 //     }
                 // }
-                ioh.CreateOutputFiles(pass);
             }
         }
     }

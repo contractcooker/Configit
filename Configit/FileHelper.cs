@@ -9,16 +9,19 @@ namespace Resolve_dependencies
     {
         public string[] Lines { get; set; }
         public int NumPackages { get; set; }
-        public List<KeyValuePair<string, string>> PackageList { get; set; }
+
+        public List<(string package, string version)> PackageList { get; set; } =
+            new List<(string package, string version)>();
         
         public FileHelper(string currentFile)
         {
             Lines = File.ReadAllLines(currentFile);
             NumPackages = GetNumPackages(Lines[0]);
+            //PackageList = new List<(string package, string version)>();
             for (int i = 1; i <= NumPackages; i++)
             {
                 var subs = Lines[i].Split(',');
-                PackageList.Add(new KeyValuePair<string, string>(subs[0], subs[1]));
+                PackageList.Add((subs[0], subs[1]));
             }
         }
 
