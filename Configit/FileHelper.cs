@@ -6,11 +6,11 @@ namespace Configit
 {
     public class FileHelper
     {
-        public string[] Lines { get; set; }
-        public int NumPackages { get; set; }
-        public int DependencyIndex { get; set; }
+        public string[] Lines { get; }
+        public int NumPackages { get; }
+        public int DependencyIndex { get; }
 
-        public bool ValidConfig { get; set; }
+        public bool ValidConfig { get; }
 
         public FileHelper(string currentFile)
         {
@@ -71,7 +71,7 @@ namespace Configit
             return packageList.ContainsKey(key) && packageList[key] == value;
         }
 
-        public static int GetNumPackages(string line)
+        private static int GetNumPackages(string line)
         {
             bool success = int.TryParse(line, out var numPackages);
             return success ? numPackages : throw new FormatException("File is improperly formatted");
