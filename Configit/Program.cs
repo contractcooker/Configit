@@ -21,7 +21,7 @@ namespace Resolve_dependencies
                 int numPackages = int.Parse(lines[0]);
                 
                 Dictionary<string, string> packageToVersionDictionary = new Dictionary<string, string>();
-                //start at index 1 because that's where the packages start [0] just gives us the number of packages
+                //start at index 1 because that's where the packages start. [0] just gives us the number of packages
                 for (int j = 1; j <= numPackages; j++)
                 {
                     var subs = lines[j].Split(',');
