@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Resolve_dependencies
+namespace Configit
 {
     public class IoHelper
     {
