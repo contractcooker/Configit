@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace Configit.Tests
 {
     [TestClass]
     public class UnitTest1
@@ -8,6 +8,7 @@ namespace UnitTests
         [TestMethod]
         public void TestMethod1()
         {
+            FileHelper fh
         }
     }
 }
