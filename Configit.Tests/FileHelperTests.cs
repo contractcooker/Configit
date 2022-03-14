@@ -24,7 +24,7 @@ namespace Configit.Tests
         
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void EmptyDependency_ThrowsArgumentNullException()
+        public void EmptyDependency_ThrowsArgumentException()
         {
             FileHelper fh = new FileHelper("");
         }
