@@ -10,17 +10,8 @@ namespace Configit
 {
     public class FileHelper : IFileHelper
     {
-        //public string[] Lines { get; }
-        
-        //public int DependencyIndex { get; }
-
-        //public bool ValidConfig { get; }
-        //private readonly IIoHelper _iohelper;
-
         public FileHelper()
         {
-            
-            //DependencyIndex = 2 + NumPackages;
         }
 
         public bool Validate(string[] lines)

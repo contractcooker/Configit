@@ -5,8 +5,8 @@ namespace Configit
 {
     public class IoHelper : IIoHelper
     {
-        public string InputPath { get; set; } = @"/Users/husker/RiderProjects/Configit/input/";
-        public string OutputPath { get; set; } = @"/Users/husker/RiderProjects/Configit/output/";
+        private string InputPath { get; set; } = @"/Users/husker/RiderProjects/Configit/input/";
+        private string OutputPath { get; set; } = @"/Users/husker/RiderProjects/Configit/output/";
 
 
         public IEnumerable<string> GetInputFiles()

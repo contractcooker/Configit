@@ -7,8 +7,6 @@ namespace Configit
     {
         static void Main(string[] args)
         {
-            //IIoHelper
-            // IoHelper ioh = new IoHelper();
             CreateHostBuilder(args).Build().Run();
         }
         static IHostBuilder CreateHostBuilder(string[] args) =>

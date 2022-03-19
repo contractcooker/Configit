@@ -20,14 +20,12 @@ namespace Configit.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullDependency_ThrowsArgumentNullException()
         {
-            FileHelper fh = new FileHelper(null);
         }
         
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void EmptyDependency_ThrowsArgumentException()
         {
-            FileHelper fh = new FileHelper("");
         }
     }
 }
