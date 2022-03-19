@@ -34,8 +34,8 @@ namespace Configit
                 _iohelper.CreateOutputFile(currentFile, _fileHelper.Validate(File.ReadAllLines(currentFile)) ? "PASS" : "FAIL");
             }
 
-            _host.StopAsync();
-            return null;
+            return _host.StopAsync(stoppingToken);
+            
         }
     }
 }
