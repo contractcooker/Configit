@@ -8,18 +8,13 @@ namespace Configit
         static void Main(string[] args)
         {
             //IIoHelper
-            IoHelper ioh = new IoHelper();
-            var inputFiles = ioh.GetInputFiles();
-            foreach (string currentFile in inputFiles)
-            {
-                FileHelper fh = new FileHelper(currentFile);
-                ioh.CreateOutputFile(currentFile, fh.ValidConfig ? "PASS" : "FAIL");
-            }
+            // IoHelper ioh = new IoHelper();
+            CreateHostBuilder(args).Build().Run();
         }
         static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((_, services) =>
-                    services.AddHostedService<FileHelper>()
-                        .AddScoped<IIoHelper, IoHelper>());
+                    services.AddHostedService<BatchFileHelper>()
+                        .AddScoped<IIoHelper, IoHelper>().AddScoped<IFileHelper, FileHelper>());
     }
 }

@@ -8,29 +8,29 @@ using Microsoft.Extensions.Hosting;
 
 namespace Configit
 {
-    public class FileHelper : BackgroundService
+    public class FileHelper : IFileHelper
     {
-        public string[] Lines { get; }
-        public int NumPackages { get; }
-        public int DependencyIndex { get; }
+        //public string[] Lines { get; }
+        
+        //public int DependencyIndex { get; }
 
-        public bool ValidConfig { get; }
+        //public bool ValidConfig { get; }
+        //private readonly IIoHelper _iohelper;
 
-        public FileHelper(string currentFile)
+        public FileHelper()
         {
-            Guard.Against.NullOrEmpty(currentFile, nameof(currentFile));
-            Lines = File.ReadAllLines(currentFile);
-            NumPackages = GetNumPackages(Lines[0]);
-            DependencyIndex = 2 + NumPackages;
-            ValidConfig = Validate(Lines);
+            
+            //DependencyIndex = 2 + NumPackages;
         }
 
-        private bool Validate(string[] lines)
+        public bool Validate(string[] lines)
         {
+            var numPackages = GetNumPackages(lines[0]);
+            var dependencyIndex = 2 + numPackages;
             bool isValid;
-            bool hasDependencies = lines.Length > 1 + NumPackages;
+            bool hasDependencies = lines.Length > 1 + numPackages;
             Dictionary<string, string> packageList = new Dictionary<string, string>();
-            for (int i = 1; i <= NumPackages; i++)
+            for (int i = 1; i <= numPackages; i++)
             {
                 var subs = lines[i].Split(',');
                 if (ContainsIdenticalPackage(packageList, subs)) continue;
@@ -43,7 +43,7 @@ namespace Configit
 
             if (!hasDependencies) return true;
             
-            for (int i = DependencyIndex; i < lines.Length; i++)
+            for (int i = dependencyIndex; i < lines.Length; i++)
             {
                 var subs = lines[i].Split(',');
                 int numDependencies = subs.Length / 2 - 1;
@@ -81,10 +81,10 @@ namespace Configit
             bool success = int.TryParse(line, out var numPackages);
             return success ? numPackages : throw new FormatException("File is improperly formatted");
         }
+    }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            throw new NotImplementedException();
-        }
+    public interface IFileHelper
+    {
+        bool Validate(string[] lines);
     }
 }

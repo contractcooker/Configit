@@ -20,7 +20,10 @@ namespace Configit
             Directory.CreateDirectory(OutputPath);
             File.WriteAllText(outputFile, output);
         }
+
     }
+
+    public delegate void AsyncCreateOutputFile(string currentFile, string output);
 
     public interface IIoHelper
     {
