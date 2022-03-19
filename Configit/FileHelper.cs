@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using Microsoft.Extensions.Hosting;
 
 namespace Configit
 {
-    public class FileHelper
+    public class FileHelper : BackgroundService
     {
         public string[] Lines { get; }
         public int NumPackages { get; }
@@ -77,6 +80,11 @@ namespace Configit
         {
             bool success = int.TryParse(line, out var numPackages);
             return success ? numPackages : throw new FormatException("File is improperly formatted");
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }
